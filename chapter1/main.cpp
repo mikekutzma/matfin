@@ -1,24 +1,25 @@
 #include "binmodel.h"
+#include "options.h"
 #include <iostream>
 #include <cmath>
 using namespace std;
 
 
 int main(){
-	//Get data
+
 	double S0, U, D, R;
 	if (GetInputData(S0,U,D,R)==1) return 1;
 
-	//Get risk-neutral probability
-	cout << "q = " << RiskNeutralProb(U,D,R) << endl;
+	double K;	//Strike price
+	int N;	//Steps to expiry
 
+	cout << "Enter call option data:" << endl;
+	GetInputData(N,K);
 
-	//Get node data
-	int n,i;
-	if (GetNodeData(n,i)==1) return 1;
+	cout << "European call option price = "
+		 << PriceByCRR(S0,U,D,R,N,K)
+		 << endl << endl;
 
-	// Compute stock price at node n,i
-	cout << "S(n,i) = " << S(S0,U,D,n,i) << endl;
 
 	return 0;
 }
