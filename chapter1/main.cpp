@@ -1,5 +1,6 @@
 #include "binmodel.h"
 #include "options.h"
+#include "utils.h"
 #include <iostream>
 #include <cmath>
 using namespace std;
