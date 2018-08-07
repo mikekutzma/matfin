@@ -1,0 +1,40 @@
+#include "options.h"
+#include "binmodel.h"
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int GetInputData(int& N, double& K){
+
+	cout << "Enter steps to expiry N:  "; cin >> N;
+	cout << "Enter strike price K:  "; cin >> K;
+	cout << endl;
+
+	// Validating data
+	if(N<=0 || K<=0.0){
+		cout << "Illegal data ranges" << endl;
+		cout << "Terminating program" << endl;
+		return 1;
+	}
+
+	return 0;
+}
+
+double PriceByCRR(BinModel Model, int N, double K,
+	double (*Payoff)(double z, double K)){
+
+	double q = Model.RiskNeutProb();
+	double Price[N+1];
+
+	for (int i=0; i<=N; i++){
+		Price[i] = Payoff(Model.S(N,i),K);
+	}
+	for (int n=N-1; n>=0; n--){
+		for (int i=0; i<=n; i++) {
+			Price[i] = (q*Price[i+1] + (1-q)*Price[i])/(1+Model.GetR());
+		}
+	}
+
+	return Price[0];
+
+}
