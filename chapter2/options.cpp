@@ -38,3 +38,13 @@ double PriceByCRR(BinModel Model, int N, double K,
 	return Price[0];
 
 }
+
+double CallPayoff(double z, double K){
+	if(z>K) return z-K;
+	return 0.0;
+}
+
+double PutPayoff(double z, double K){
+	if(z<K) return K-z;
+	return 0.0;
+}
