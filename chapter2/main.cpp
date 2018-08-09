@@ -14,14 +14,14 @@ int main(){
 	if (Option1.GetInputData()==1) return 1;
 
 	cout << "European call option price = "
-		 << Option1.PriceByCRR(Model,Option1.GetK())
+		 << Option1.PriceByCRR(Model)
 		 << endl << endl;
 
 	Put Option2;
 	if (Option2.GetInputData()==1) return 1;
 
 	cout << "European put option price = "
-		 << Option2.PriceByCRR(Model,Option2.GetK())
+		 << Option2.PriceByCRR(Model)
 		 << endl << endl;
 
 

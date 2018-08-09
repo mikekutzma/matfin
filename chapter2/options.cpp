@@ -5,13 +5,13 @@
 using namespace std;
 
 
-double EurOption::PriceByCRR(BinModel Model, double K){
+double EurOption::PriceByCRR(BinModel Model){
 
 	double q = Model.RiskNeutProb();
 	double Price[N+1];
 
 	for (int i=0; i<=N; i++){
-		Price[i] = Payoff(Model.S(N,i),K);
+		Price[i] = Payoff(Model.S(N,i));
 	}
 	for (int n=N-1; n>=0; n--){
 		for (int i=0; i<=n; i++) {
@@ -24,8 +24,7 @@ double EurOption::PriceByCRR(BinModel Model, double K){
 }
 
 
-
-double CallPayoff(double z, double K){
+double Call::Payoff(double z){
 	if(z>K) return z-K;
 	return 0.0;
 }
@@ -51,7 +50,7 @@ int Call::GetInputData(){
 }
 
 
-double PutPayoff(double z, double K){
+double Put::Payoff(double z){
 	if(z<K) return K-z;
 	return 0.0;
 }

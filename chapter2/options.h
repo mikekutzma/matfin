@@ -8,24 +8,18 @@ class EurOption {
 private:
 	//steps to inquiry
 	int N;
-	//pointer to payoff function
-	double (*Payoff)(double z, double K);
 
 public:
 	void SetN(int N_){
 		N=N_;
 	}
 	
-	void SetPayoff(double (*Payoff_)(double z, double K)){
-		Payoff=Payoff_;
-	}
+	//payoff function, defined to return 0
+	virtual double Payoff(double z)=0;
 
 	//pricing european option
-	double PriceByCRR(BinModel Model, double K);
+	double PriceByCRR(BinModel Model);
 };
-
-//Computing call payoff
-double CallPayoff(double z, double K);
 
 
 class Call: public EurOption {
@@ -35,19 +29,13 @@ private:
 	double K;
 
 public:
-	Call(){
-		SetPayoff(CallPayoff);
-	}
-
-	double GetK(){
-		return K;
+	void SetK(double K_){
+		K=K_;
 	}
 	int GetInputData();
+	double Payoff(double z);
 
 };
-
-//Computing call payoff
-double PutPayoff(double z, double K);
 
 class Put: public EurOption {
 
@@ -56,14 +44,11 @@ private:
 	double K;
 
 public:
-	Put(){
-		SetPayoff(PutPayoff);
-	}
-
-	double GetK(){
-		return K;
+	void SetK(double K_){
+		K=K_;
 	}
 	int GetInputData();
+	double Payoff(double z);
 
 };
 
