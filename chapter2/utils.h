@@ -19,6 +19,8 @@ public:
 
 	double Trapezoidal(int N);
 
+	double Simpson(int N);
+
 };
 
 double X(double x);
