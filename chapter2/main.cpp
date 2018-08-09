@@ -8,24 +8,20 @@ using namespace std;
 int main(){
 
 	BinModel Model;
-
 	if (Model.GetInputData()==1) return 1;
 
-	double K;	//Strike price
-	int N;	//Steps to expiry
-
-	cout << "Enter call option data:" << endl;
-	if (GetInputData(N,K)==1) return 1;
+	Call Option1;
+	if (Option1.GetInputData()==1) return 1;
 
 	cout << "European call option price = "
-		 << PriceByCRR(Model,N,K,CallPayoff)
+		 << Option1.PriceByCRR(Model,Option1.GetK())
 		 << endl << endl;
 
-	cout << "Enter put option data:" << endl;
-	if (GetInputData(N,K)==1) return 1;
+	Put Option2;
+	if (Option2.GetInputData()==1) return 1;
 
 	cout << "European put option price = "
-		 << PriceByCRR(Model,N,K,PutPayoff)
+		 << Option2.PriceByCRR(Model,Option2.GetK())
 		 << endl << endl;
 
 

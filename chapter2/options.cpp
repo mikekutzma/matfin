@@ -4,24 +4,8 @@
 #include <cmath>
 using namespace std;
 
-int GetInputData(int& N, double& K){
 
-	cout << "Enter steps to expiry N:  "; cin >> N;
-	cout << "Enter strike price K:  "; cin >> K;
-	cout << endl;
-
-	// Validating data
-	if(N<=0 || K<=0.0){
-		cout << "Illegal data ranges" << endl;
-		cout << "Terminating program" << endl;
-		return 1;
-	}
-
-	return 0;
-}
-
-double PriceByCRR(BinModel Model, int N, double K,
-	double (*Payoff)(double z, double K)){
+double EurOption::PriceByCRR(BinModel Model, double K){
 
 	double q = Model.RiskNeutProb();
 	double Price[N+1];
@@ -39,12 +23,54 @@ double PriceByCRR(BinModel Model, int N, double K,
 
 }
 
+
+
 double CallPayoff(double z, double K){
 	if(z>K) return z-K;
 	return 0.0;
 }
 
+
+int Call::GetInputData(){
+
+	cout << "Enter call option data:" << endl;
+	int N;
+	cout << "Enter steps to expiry N:  "; cin >> N;
+	SetN(N);
+	cout << "Enter strike price K:  "; cin >> K;
+	cout << endl;
+
+	// Validating data
+	if(N<=0 || K<=0.0){
+		cout << "Illegal data ranges" << endl;
+		cout << "Terminating program" << endl;
+		return 1;
+	}
+
+	return 0;
+}
+
+
 double PutPayoff(double z, double K){
 	if(z<K) return K-z;
 	return 0.0;
+}
+
+int Put::GetInputData(){
+
+	cout << "Enter put option data:" << endl;
+	int N;
+	cout << "Enter steps to expiry N:  "; cin >> N;
+	SetN(N);
+	cout << "Enter strike price K:  "; cin >> K;
+	cout << endl;
+
+	// Validating data
+	if(N<=0 || K<=0.0){
+		cout << "Illegal data ranges" << endl;
+		cout << "Terminating program" << endl;
+		return 1;
+	}
+
+	return 0;
 }
