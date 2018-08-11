@@ -3,38 +3,29 @@
 
 #include "binmodel.h"
 
-class EurOption {
+class Option {
 
 private:
-	//steps to inquiry
+	//steps to expiry
 	int N;
 
 public:
-	void SetN(int N_){
-		N=N_;
-	}
+	void SetN(int N_){N=N_;}
+	int GetN(){return N;}
 	
-	//payoff function, defined to return 0
+	//pure virtual payoff function
 	virtual double Payoff(double z)=0;
 
+};
+
+class EurOption: public virtual Option {
+public:
 	//pricing european option
 	double PriceByCRR(BinModel Model);
 };
 
-class AmOption {
-
-private:
-	//steps to inquiry
-	int N;
-
+class AmOption: public virtual Option {
 public:
-	void SetN(int N_){
-		N=N_;
-	}
-	
-	//payoff function, defined to return 0
-	virtual double Payoff(double z)=0;
-
 	//pricing american option
 	double PriceBySnell(BinModel Model);
 };

@@ -9,6 +9,7 @@ using namespace std;
 double EurOption::PriceByCRR(BinModel Model){
 
 	double q = Model.RiskNeutProb();
+	int N = GetN();
 	vector<double> Price(N+1);
 
 	for (int i=0; i<=N; i++){
@@ -27,8 +28,9 @@ double EurOption::PriceByCRR(BinModel Model){
 double AmOption::PriceBySnell(BinModel Model){
 
 	double q = Model.RiskNeutProb();
+	int N = GetN();
 	vector<double> Price(N+1);
-	couble ContVal;
+	double ContVal;
 
 	for (int i=0; i<=N; i++){
 		Price[i] = Payoff(Model.S(N,i));
@@ -56,7 +58,7 @@ int Call::GetInputData(){
 	cout << "Enter call option data:" << endl;
 	int N;
 	cout << "Enter steps to expiry N:  "; cin >> N;
-	EurOption::SetN(N); AmOption::SetN(N);
+	SetN(N);
 	cout << "Enter strike price K:  "; cin >> K;
 	cout << endl;
 
@@ -81,7 +83,7 @@ int Put::GetInputData(){
 	cout << "Enter put option data:" << endl;
 	int N;
 	cout << "Enter steps to expiry N:  "; cin >> N;
-	EurOption::SetN(N); AmOption::SetN(N);
+	SetN(N);
 	cout << "Enter strike price K:  "; cin >> K;
 	cout << endl;
 
