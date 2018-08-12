@@ -2,6 +2,7 @@
 #define options_h
 
 #include "binmodel.h"
+#include "binlattice.h"
 
 class Option {
 
@@ -27,7 +28,8 @@ public:
 class AmOption: public virtual Option {
 public:
 	//pricing american option
-	double PriceBySnell(BinModel Model);
+	double PriceBySnell(BinModel Model, 
+		BinLattice<double>& PriceTree, BinLattice<bool>& StoppingTree);
 };
 
 

@@ -1,5 +1,6 @@
 #include "options.h"
 #include "binmodel.h"
+#include "binlattice.h"
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -25,25 +26,35 @@ double EurOption::PriceByCRR(BinModel Model){
 
 }
 
-double AmOption::PriceBySnell(BinModel Model){
+double AmOption::PriceBySnell(BinModel Model, 
+	BinLattice<double>& PriceTree, BinLattice<bool>& StoppingTree){
 
 	double q = Model.RiskNeutProb();
 	int N = GetN();
 	vector<double> Price(N+1);
+	PriceTree.SetN(N);
+	StoppingStree.SetN(N);
 	double ContVal;
 
 	for (int i=0; i<=N; i++){
-		Price[i] = Payoff(Model.S(N,i));
+		PriceTree.SetNode(N,i,Payoff(Model.S(N,i)));
+		StoppingTree.SetNode(N,i,1);
 	}
 	for (int n=N-1; n>=0; n--){
 		for (int i=0; i<=n; i++) {
-			ContVal = (q*Price[i+1] + (1-q)*Price[i])/(1+Model.GetR());
-			Price[i] = Payoff(Model.S(n,i));
-			if(ContVal>Price[i]) Price[i]=ContVal;
+			ContVal = (q*PriceTree.GetNode(n+1,i+1) + 
+				(1-q)*PriceTree.GetNode(n+1,i))/(1+Model.GetR());
+			PriceTree.SetNode(n,i,Payoff(Model.S(n,i)));
+			if(ContVal>PriceTree.GetNode(n,i)){
+				PriceTree.SetNode(n,i,ContVal);
+				StoppingTree.SetNode(n,i,0);
+			} else if (PriceTree.GetNode(n,i)==0.0) {
+				StoppingTree.SetNode(n,i,0);
+			}
 		}
 	}
 
-	return Price[0];
+	return PriceTree.GetNode(0,0);
 
 }
 
