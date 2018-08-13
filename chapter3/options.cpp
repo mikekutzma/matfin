@@ -33,7 +33,7 @@ double AmOption::PriceBySnell(BinModel Model,
 	int N = GetN();
 	vector<double> Price(N+1);
 	PriceTree.SetN(N);
-	StoppingStree.SetN(N);
+	StoppingTree.SetN(N);
 	double ContVal;
 
 	for (int i=0; i<=N; i++){

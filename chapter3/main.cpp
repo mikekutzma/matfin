@@ -1,7 +1,7 @@
 #include "binmodel.h"
 #include "options.h"
+#include "binlattice.h"
 #include <iostream>
-#include <cmath>
 using namespace std;
 
 
@@ -9,27 +9,16 @@ int main(){
 
 	BinModel Model;
 	if (Model.GetInputData()==1) return 1;
-
-	Call Option1;
-	if (Option1.GetInputData()==1) return 1;
-
-	cout << "European call option price = "
-		 << Option1.PriceByCRR(Model)
-		 << endl;
-	cout << "American call option price = "
-		 << Option1.PriceBySnell(Model)
-		 << endl << endl;
-
-	Put Option2;
-	if (Option2.GetInputData()==1) return 1;
-
-	cout << "European put option price = "
-		 << Option2.PriceByCRR(Model)
-		 << endl;
-	cout << "american put option price = "
-		 << Option2.PriceBySnell(Model)
-		 << endl << endl;
-
-
+	
+	Put Option;
+	if (Option.GetInputData()==1) return 1;
+	BinLattice<double> PriceTree;
+	BinLattice<bool> StoppingTree;
+	Option.PriceBySnell(Model, PriceTree, StoppingTree);	
+	cout << "American put prices: " << endl << endl;
+	PriceTree.Display();
+	cout << "American put exercise policy: " << endl << endl;
+	StoppingTree.Display();
+	
 	return 0;
 }

@@ -6,8 +6,8 @@ endif
 
 all: main
 
-main: main.o binmodel.o options.o
-	g++ -o main$(executable_ext) main.o binmodel.o options.o
+main: main.o binmodel.o options.o binlattice.o
+	g++ -o main$(executable_ext) main.o binmodel.o options.o binlattice.o
 
 %.o: %.cpp %.h
 	g++ -c $<
