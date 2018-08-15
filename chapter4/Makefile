@@ -4,11 +4,19 @@ else
 	executable_ext = .out
 endif
 
+CFLAGS = -Wall
+SRC = $(wildcard *.cpp)
+DEPS = $(wildcard *.h)
+OBJS = $(SRC:.cpp=.o)
+
 all: main
 
-main: main.o solver.h
-	g++ -o main$(executable_ext) main.o
+main: $(OBJS)
+	$(CXX) $(CFLAGS) -o $@$(executable_ext) $^
 
-%.o: %.cpp %.h
-	g++ -c $<
+%.o: %.cpp $(DEPS)
+	$(CXX) $(CFLAGS) -c -o $@ $<
 
+.PHONY: clean
+clean:
+	rm -f $(OBJS) main$(executable_ext)
