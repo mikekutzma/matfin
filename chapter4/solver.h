@@ -3,18 +3,14 @@
 #include <cmath>
 #include <iostream>
 
-class Function {
-public:
-	virtual double value(double x)=0;
-	virtual double deriv(double x)=0;	
-};
 
-double Bisect(Function* f,double c,double L,double R, double acc){
+template<typename Function> double Bisect(Function f,double c,double L, 
+	double R, double acc) {
 	double m = 0.5*(R+L);
-	if(f->value(L)==c) return L;
-	if(f->value(R)==c) return R;
-	while(fabs(f->value(m)-c)>acc){
-		if( (f->value(L)-c)*(f->value(m)-c) < 0 ){
+	if(f.value(L)==c) return L;
+	if(f.value(R)==c) return R;
+	while(fabs(f.value(m)-c)>acc){
+		if( (f.value(L)-c)*(f.value(m)-c) < 0 ){
 			R=m;
 		} else {
 			L=m;
@@ -24,13 +20,14 @@ double Bisect(Function* f,double c,double L,double R, double acc){
 	return m;
 }
 
-double NR(Function* f,double c,double x0,double acc){
-	if(f->value(x0)==c){return x0;}
+template<typename Function> double NR(Function f,double c,double x0, 
+	double acc) {
+	if(f.value(x0)==c){return x0;}
 	double x=x0+acc+1;
 	double temp;
 	while(fabs(x-x0)>acc){
 		temp = x;
-		x = x-((f->value(x)-c)/f->deriv(x));
+		x = x-((f.value(x)-c)/f.deriv(x));
 		x0=temp;
 	}
 	return x;
