@@ -15,7 +15,7 @@ main: $(OBJS)
 	$(CXX) $(CFLAGS) -o $@$(executable_ext) $^
 
 %.o: %.cpp $(DEPS)
-	$(CXX) $(CFLAGS) -c -o $@ $<
+	$(CXX) $(CFLAGS) -c -g -o $@ $<
 
 .PHONY: clean
 clean:
