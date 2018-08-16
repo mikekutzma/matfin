@@ -1,28 +1,43 @@
 #include "solver.h"
+#include "eurcall.h"
 #include <iostream>
 using namespace std;
 
-class F1 {
-public:
-	double value(double x){return x*x-2;}
-	double deriv(double x){return 2*x;}
-} MyF1;
-
-class F2 {
+class Intermediary: public EurCall{
 private:
-	double a;
+	double S0,r;
 public:
-	F2(double a_){a=a_;}
-	double value(double x){return x*x-a;}
-	double deriv(double x){return 2*x;}
-} MyF2(0.4);
+	Intermediary(double S0_,double r_,double T_,double K_) : EurCall(T_,K_) {
+		S0=S0_;r=r_;
+	}
+	double value(double sigma){
+		return PriceByBSFormula(S0,sigma,r);
+	}
+	double deriv(double sigma){
+		return VegaByBSFormula(S0,sigma,r);
+	}
+};
 
 int main(){
 
-	cout << Bisect(MyF1,0.0,0.0,11.0,0.00001) << endl;
-	cout << Bisect(MyF2,0.0,0.0,11.0,0.00001) << endl;
-	cout << NR(MyF1,0.0,0.0,0.001) << endl;
-	cout << NR(MyF2,0.0,0.0,0.001) << endl;
+	double S0=100.0;
+	double r=0.1;
+	double T=1.0;
+	double K=100.0;
+	Intermediary Call(S0,r,T,K);
+
+	double acc=0.001;
+	double L=0.01;
+	double R=1.0;
+	double target=12.56;
+	double guess=0.23;
+
+	cout << "Implied vol by bisect: " 
+		<< Bisect(Call,target,L,R,acc)
+		<< endl;
+	cout << "Implied vol by Newton-Raphson: " 
+		<< NR(Call,target,guess,acc)
+		<< endl;
 
 	return 0;
 }
