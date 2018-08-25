@@ -12,7 +12,12 @@ int main() {
 	ArthmAsianCall Option(T,K,m);
 
 	long N=30000;
-	cout << "Asian Call Price = " << Option.PriceByMC(Model,N) << endl;
+	double epsilon = 0.001;
+	cout << "Asian Call Price = " << Option.PriceByMC(Model,N,epsilon) << endl
+		<< "Pricing Error = " << Option.PricingError << endl
+		<< "        delta = " << Option.delta << endl
+		<< "        gamma = " << Option.gamma << endl;
+
 
 	return 0;
 }
